@@ -1,3 +1,0 @@
-/home/haha/WebRTC-Thread/epoll/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/haha/WebRTC-Thread/epoll/cmake-build-debug/CMakeFiles/epoll.dir
-/home/haha/WebRTC-Thread/epoll/cmake-build-debug/CMakeFiles/edit_cache.dir

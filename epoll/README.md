@@ -42,5 +42,12 @@ struct epoll_event
 
 #### events
 | 位掩码 | 作为epoll_ctl()输入? | 由epoll_wait()返回? | 描述 |
-| ---- | -------------------:| :----------------: | :--: |
-| 
+| :----  | :-------------------:| :----------------: | :-- |
+| EPOLLIN | y | y | 可读取非高优先级的数据 |
+| EPOLLPRI | y | y | 可读取高优先级数据 |
+| EPOLLRDHUP | y | y | 套接字对端关闭 |
+| EPOLLOUT | y | y | 普通数据可写 |
+| EPOLLET | y |  | 采用边缘触发事件通知 |
+| EPOLLONESHOT | y |  | 在完成事件通知之后禁用检查 |
+| EPOLLERR |  | y | 有错误发生 |
+| EPOLLHUP |  | y | 出现挂断 |
