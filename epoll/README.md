@@ -51,3 +51,4 @@ struct epoll_event
 | EPOLLONESHOT | y |  | 在完成事件通知之后禁用检查 |
 | EPOLLERR |  | y | 有错误发生 |
 | EPOLLHUP |  | y | 出现挂断 |
+

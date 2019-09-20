@@ -62,6 +62,7 @@ bool MessageQueue::Get(Message* pmsg, int cmsWait, bool process_io) {
             if (!ss_->Wait(static_cast<int>(cmsNext), process_io))
                 return false;
         }
+        int a = 10;
     }
 
     return false;

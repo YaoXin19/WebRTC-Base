@@ -54,6 +54,7 @@ public:
 protected:
     SOCKET s_;
     PhysicalSocketServer* ss_;
+    uint8_t enabled_events_;
 
 private:
     bool udp_;
@@ -61,7 +62,6 @@ private:
     ConnState  state_;
     AsyncResolver* resolver_;
 
-    uint8_t enabled_events_;
 };
 
 class SocketDispatcher : public Dispatcher, public PhysicalSocket {
@@ -69,9 +69,9 @@ public:
     explicit SocketDispatcher(PhysicalSocketServer* ss);
     ~SocketDispatcher() override;
 
-    int GetDescriptor() {}
-    bool IsDescriptorClosed() {}
-    uint32_t GetRequestedEvents() {}
+    int GetDescriptor() override;
+    bool IsDescriptorClosed() override;
+    uint32_t GetRequestedEvents() override;
 
     bool Create(int family, int type); // 实际创建socket
     bool Initialize(); // 将socket加入epoll

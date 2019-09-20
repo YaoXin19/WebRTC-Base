@@ -121,7 +121,15 @@ bool SocketDispatcher::Initialize() {
     return true;
 }
 
+int SocketDispatcher::GetDescriptor() {
+    return s_; // 从PhysicalSocket中返回
+}
 
+bool SocketDispatcher::IsDescriptorClosed() {assert(false);}
+
+uint32_t SocketDispatcher::GetRequestedEvents() {
+    return enabled_events_;
+}
 
 
 PhysicalSocketServer::PhysicalSocketServer() : fWait_(false) {

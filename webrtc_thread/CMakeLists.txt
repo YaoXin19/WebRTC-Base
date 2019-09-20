@@ -9,14 +9,20 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_executable(incr incr.cpp thread.h thread.cpp)
 
-target_link_libraries(
-        incr
-        -lpthread
-)
+#target_link_libraries(
+#        incr
+#        -lpthread
+#)
 
-add_executable(incr_mutex incr_mutex.cpp)
+#add_executable(incr_mutex incr_mutex.cpp)
+#target_link_libraries(
+#        incr_mutex
+#        -lpthread
+#)
+
+add_executable(udp_client udp_client.cpp)
 target_link_libraries(
-        incr_mutex
+        udp_client
         -lpthread
 )
 
