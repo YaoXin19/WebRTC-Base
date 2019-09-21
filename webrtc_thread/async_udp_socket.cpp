@@ -4,6 +4,7 @@
 
 #include "async_udp_socket.h"
 
+#include <cassert>
 
 static const int BUF_SIZE = 64 * 1024;
 
@@ -31,10 +32,21 @@ AsyncUDPSocket::AsyncUDPSocket(AsyncSocket* socket) : socket_(socket) {
     buf_ = new char[size_];
 
     // The socket should start out readable but not writable.
-    //socket_->SignalReadEvent.connect(this, &AsyncUDPSocket::OnReadEvent);
+    socket_->SignalReadEvent.connect(this, &AsyncUDPSocket::OnReadEvent);
     //socket_->SignalWriteEvent.connect(this, &AsyncUDPSocket::OnWriteEvent);
 }
 
 AsyncUDPSocket::~AsyncUDPSocket() {
     delete[] buf_;
+}
+
+void AsyncUDPSocket::OnReadEvent(AsyncSocket* socket) {
+    assert(socket_.get() == socket);
+
+    SocketAddress remote_addr;
+    int64_t timestamp;
+    int len = socket_->RecvFrom(buf_, size_, &remote_addr, &timestamp);
+    if (len < 0) {
+
+    }
 }

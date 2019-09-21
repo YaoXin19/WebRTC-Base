@@ -14,6 +14,8 @@ public:
     virtual ~Socket() {}
 
     virtual int Bind(const SocketAddress& addr) = 0;
+
+    virtual int RecvFrom(void* pv, size_t cb, SocketAddress* paddr, int64_t* timestamp) = 0;
 };
 
 #endif //PTHREAD_SOCKET_H

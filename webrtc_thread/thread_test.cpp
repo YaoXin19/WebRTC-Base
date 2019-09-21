@@ -11,7 +11,8 @@ int main() {
     //thread->Start();
 
     SocketAddress server_addr;
-    server_addr.FromString("127.0.0.1:2188");
+    //server_addr.FromString("127.0.0.1:8888");
+    server_addr.FromString("192.168.1.166:8888");
 
     Thread* pthMain = Thread::Current();
 
