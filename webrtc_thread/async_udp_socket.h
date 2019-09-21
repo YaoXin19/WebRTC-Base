@@ -27,6 +27,9 @@ public:
     ~AsyncUDPSocket() override;
 
 private:
+    void OnReadEvent(AsyncSocket* socket);
+
+private:
     std::unique_ptr<AsyncSocket> socket_;
     char* buf_;
     size_t size_;

@@ -6,10 +6,14 @@
 #define PTHREAD_ASYNC_SOCKET_H
 
 #include "socket.h"
+#include "sigslot.h"
+
 
 class AsyncSocket : public Socket {
 public:
     ~AsyncSocket() override;
+
+    sigslot::signal1<AsyncSocket*, sigslot::multi_threaded_local> SignalReadEvent;
 };
 
 #endif //PTHREAD_ASYNC_SOCKET_H

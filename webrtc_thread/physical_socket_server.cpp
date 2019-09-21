@@ -33,11 +33,16 @@ static void ProcessEvents(Dispatcher* dispatcher, bool readable, bool writable, 
     if (readable) {
         if (dispatcher->GetRequestedEvents() & DE_ACCEPT) {
             ff |= DE_ACCEPT;
-        //} else if () {
-
-        //} else {
-
+        } else if (errcode || dispatcher->IsDescriptorClosed()) {
+            ff |= DE_CLOSE;
+        } else {
+            ff |= DE_READ;
         }
+    }
+
+    if (0 != ff) {
+        dispatcher->OnReEvent(ff);
+        dispatcher->OnEvent(ff, errcode);
     }
 }
 
@@ -93,6 +98,16 @@ bool PhysicalSocket::Create(int family, int type) {
     return s_ != INVALID_SOCKET;
 }
 
+int PhysicalSocket::RecvFrom(void* buffer, size_t length, SocketAddress* paddr, int64_t* timestamp) {
+    sockaddr_storage addr_storage;
+    socklen_t addr_len = sizeof(addr_storage);
+    sockaddr* addr = reinterpret_cast<sockaddr*>(&addr_storage);
+    int received = ::recvfrom(s_, static_cast<char*>(buffer), static_cast<int>(length), 0, addr, &addr_len);
+    printf("ccccccccccccccccc%d\n", received);
+    return received;
+}
+
+
 SocketDispatcher::SocketDispatcher(PhysicalSocketServer* ss)
         : PhysicalSocket(ss)
 {
@@ -125,11 +140,34 @@ int SocketDispatcher::GetDescriptor() {
     return s_; // 从PhysicalSocket中返回
 }
 
-bool SocketDispatcher::IsDescriptorClosed() {assert(false);}
+bool SocketDispatcher::IsDescriptorClosed() {
+    return false;
+    //assert(false);
+}
 
 uint32_t SocketDispatcher::GetRequestedEvents() {
     return enabled_events_;
 }
+
+void SocketDispatcher::OnReEvent(uint32_t ff) {
+    if (0 != (ff & DE_CONNECT))
+        state_ = CS_CONNECTED;
+
+    if (0 != (ff & DE_CLOSE))
+        state_ = CS_CLOSED;
+}
+
+void SocketDispatcher::OnEvent(uint32_t ff, int err) {
+    //StartBatchedEventUpdates();
+
+    if ((ff & DE_READ) != 0) {
+        //DisableEvents(DE_READ);
+        SignalReadEvent(this);
+    }
+
+    //FinishBatchedEventUpdates();
+}
+
 
 
 PhysicalSocketServer::PhysicalSocketServer() : fWait_(false) {
@@ -157,6 +195,10 @@ bool PhysicalSocketServer::Wait(int cmsWait, bool process_io) {
 
 void PhysicalSocketServer::Add(Dispatcher* pdispatcher) {
     // 加锁
+//    if () {
+//    } else {
+        dispatchers_.insert(pdispatcher);
+//    }
     if (epoll_fd_ != INVALID_SOCKET)
         AddEpoll(pdispatcher);
 }
@@ -213,6 +255,8 @@ bool PhysicalSocketServer::WaitEpoll(int cmsWait) {
                 }
 
                 bool readable = (event.events & (EPOLLIN | EPOLLPRI));
+                if (readable)
+                    printf("+++++============>%d\n", n);
                 bool writable = (event.events & EPOLLOUT);
                 bool check_error = (event.events & (EPOLLRDHUP | EPOLLERR | EPOLLHUP));
 

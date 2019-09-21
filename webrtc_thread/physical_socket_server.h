@@ -37,7 +37,8 @@ public:
     virtual int GetDescriptor() = 0;
     virtual bool IsDescriptorClosed() = 0;
     virtual uint32_t GetRequestedEvents() = 0;
-
+    virtual void OnReEvent(uint32_t ff) = 0;
+    virtual void OnEvent(uint32_t ff, int err) = 0;
 };
 
 class PhysicalSocket : public AsyncSocket, public sigslot::has_slots<> {
@@ -51,15 +52,18 @@ public:
     // Creates the underlying OS socket (same as the "socket" function)
     virtual bool Create(int family, int type);
 
+    int RecvFrom(void* pv, size_t cb, SocketAddress* paddr, int64_t* timestamp) override;
+
+
 protected:
     SOCKET s_;
     PhysicalSocketServer* ss_;
     uint8_t enabled_events_;
+    ConnState  state_;
 
 private:
     bool udp_;
     int error_;
-    ConnState  state_;
     AsyncResolver* resolver_;
 
 };
@@ -72,9 +76,12 @@ public:
     int GetDescriptor() override;
     bool IsDescriptorClosed() override;
     uint32_t GetRequestedEvents() override;
+    void OnReEvent(uint32_t ff) override;
+    void OnEvent(uint32_t ff, int err) override;
 
     bool Create(int family, int type); // 实际创建socket
     bool Initialize(); // 将socket加入epoll
+
 
 };
 
