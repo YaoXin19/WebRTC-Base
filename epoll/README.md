@@ -1,7 +1,18 @@
 ### 基础
-- muduo采用水平触发
 - epoll : event poll
 - interest list(兴趣列表)和ready list(就序列表)，后者是前者的子集
+#### 非阻塞式I/O
+- 如果在打开文件时设定了`O_NONBLOCK`标志，会以非阻塞方式打开文件
+- 如果I/O系统调用不能立刻完成，则会返回错误而不是阻塞进程
+- 需要周期性地检查(“轮询poll”)某个文件描述符上是否可执行I/O操作
+#### IO模型
+- I/O多路复用 select/poll
+- 信号驱动IO
+- epoll
+#### 触发
+- 水平触发通知:muduo采用此模式
+- 边缘触发通知：
+
 ### 接口
 #### epoll_create
 ```
