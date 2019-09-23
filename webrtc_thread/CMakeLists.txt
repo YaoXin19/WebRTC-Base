@@ -32,9 +32,14 @@ add_executable(
         sigslot.cc
         thread.cpp
         message_queue.cpp
-        time_utils.cpp event.cpp event.h null_socket_server.cpp physical_socket_server.cpp physical_socket_server.h socket_address.cpp socket_address.h async_udp_socket.cpp async_udp_socket.h async_packet_socket.cpp async_packet_socket.h socket.cpp socket.h async_socket.cpp async_socket.h ip_address.cpp ip_address.h net_helpers.cpp net_helpers.h byte_order.h)
+        time_utils.cpp event.cpp event.h null_socket_server.cpp physical_socket_server.cpp physical_socket_server.h socket_address.cpp socket_address.h async_udp_socket.cpp async_udp_socket.h async_packet_socket.cpp async_packet_socket.h socket.cpp socket.h async_socket.cpp async_socket.h ip_address.cpp ip_address.h net_helpers.cpp net_helpers.h byte_order.h network.cpp network.h ifaddrs_converter.cpp ifaddrs_converter.h network_constants.h)
 target_link_libraries(
         thread_test
         -lpthread
 )
 
+add_executable(
+        network_unittest
+        network_unittest.cpp
+        network.cpp
+        ifaddrs_converter.cpp ifaddrs_converter.h)

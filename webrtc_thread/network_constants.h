@@ -1,0 +1,18 @@
+//
+// Created by haha on 9/23/19.
+//
+
+#ifndef PTHREAD_NETWORK_CONSTANTS_H
+#define PTHREAD_NETWORK_CONSTANTS_H
+
+enum AdapterType {
+    ADAPTER_TYPE_UNKNOWN = 0,
+    ADAPTER_TYPE_ETHERNET = 1 << 0,
+    ADAPTER_TYPE_WIFI = 1 << 1,
+    ADAPTER_TYPE_CELLULAR = 1 << 2,
+    ADAPTER_TYPE_VPN = 1 << 3,
+    ADAPTER_TYPE_LOOPBACK = 1 << 4,
+    ADAPTER_TYPE_ANY = 1 << 5,
+};
+
+#endif //PTHREAD_NETWORK_CONSTANTS_H

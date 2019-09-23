@@ -19,6 +19,10 @@ public:
         u_.ip4 = ip4;
     }
 
+    IPAddress(const IPAddress& other):family_(other.family_) {
+        ::memcpy(&u_, &other.u_, sizeof(u_));
+    }
+
     int family() const { return family_; }
 
     in_addr ipv4_address() const;
@@ -32,5 +36,14 @@ private:
 };
 
 bool IPFromString(const std::string& str, IPAddress* out);
+
+class InterfaceAddress : public IPAddress {
+public:
+    InterfaceAddress() :ipv6_flags_(0) {}
+    explicit InterfaceAddress(IPAddress ip)
+    :IPAddress(ip), ipv6_flags_(0) {}
+private:
+    int ipv6_flags_;
+};
 
 #endif //PTHREAD_IP_ADDRESS_H
