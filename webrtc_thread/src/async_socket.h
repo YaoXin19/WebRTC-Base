@@ -6,7 +6,7 @@
 #define PTHREAD_ASYNC_SOCKET_H
 
 #include "socket.h"
-#include "sigslot.h"
+#include "../third_party/sigslot.h"
 
 
 class AsyncSocket : public Socket {

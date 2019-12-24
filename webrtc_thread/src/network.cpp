@@ -3,7 +3,6 @@
 //
 
 #include "network.h"
-#include "network_constants.h"
 
 #include <memory>
 #include <map>
@@ -15,6 +14,17 @@ AdapterType GetAdaptorTypeFromName(const char* network_name) {
     printf("%s\n", network_name);
     return ADAPTER_TYPE_UNKNOWN;
 }
+
+Network::Network(const std::string& name,
+        const std::string& description,
+        const IPAddress& prefix,
+        int prefix_length,
+        AdapterType type)
+        :name_(name),
+        description_(description),
+        prefix_(prefix),
+        prefix_length_(prefix_length),
+        type_(type) {}
 
 bool BasicNetWorkManager::CreateNetworks(bool include_ignored, NetworkList* networks) const {
     struct ifaddrs* interfaces;
@@ -70,7 +80,13 @@ void BasicNetWorkManager::ConvertIfAddrs(struct ifaddrs* interfaces, IfAddrsConv
 
         auto iter = current_networks.find(key);
         if (iter == current_networks.end()) {
-
+            std::unique_ptr<Network> network(
+                    new Network(cursor->ifa_name, cursor->ifa_name, prefix, prefix_length, adapter_type));
+            //if (include_ignored || !network->ignored())
+            if (include_ignored) {
+                current_networks[key] = network.get();
+                networks->push_back(network.release());
+            }
         } else {
 
         }

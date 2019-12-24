@@ -54,10 +54,12 @@ Thread* Thread::Current() {
     ThreadManager* manager = ThreadManager::Instance();
     Thread* thread = manager->CurrentThread();
 
+#ifndef NO_MAIN_THREAD_WRAPPING // 只在chromuim中定义
     if (!thread && manager->IsMainThread()) {
         thread = new Thread(SocketServer::CreateDefault());
         thread->WrapCurrentWithThreadManager(manager, true);
     }
+#endif
 
     return thread;
 }

@@ -7,6 +7,11 @@ pthread_cond_t|条件变量
 pthread_attr_t|线程的属性对象
 
 ### 接口
+#### 共享线程储存
+- pthread_key_t
+- pthread_key_create
+- pthread_setspecific
+- pthread_getspecific
 #### 创建线程
 ```
 int pthread_create(pthread_t* thread, const pthread_attr_t* attr, void *(*start)(void*), void* arg);

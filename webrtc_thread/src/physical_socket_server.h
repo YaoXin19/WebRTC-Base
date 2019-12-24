@@ -6,7 +6,7 @@
 #define PTHREAD_PHYSICAL_SOCKET_SERVER_H
 
 #include "socket_server.h"
-#include "sigslot.h"
+#include "../third_party/sigslot.h"
 #include "net_helpers.h"
 
 #include <vector>

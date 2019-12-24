@@ -26,7 +26,7 @@ private:
     ThreadManager();
     ~ThreadManager();
 
-    pthread_key_t key_;
+    pthread_key_t key_; // Thread是单例的，该变量是线程独立的，储存的是该线程下的Thread*
 
     const PlatformThreadRef main_thread_ref_;
 };
